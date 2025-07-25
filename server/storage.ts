@@ -34,6 +34,7 @@ export class MemStorage implements IStorage {
         year: 2008,
         duration: 242,
         youtubeId: "dvgZkm1xWPE",
+        songStartOffset: 15, // Song actually starts at 15 seconds in the YouTube video
         lyrics: [
           { timestamp: 0, text: "I used to rule the world", duration: 4 },
           { timestamp: 4, text: "Seas would rise when I gave the word", duration: 4 },
@@ -64,6 +65,7 @@ export class MemStorage implements IStorage {
         year: 2005,
         duration: 294,
         youtubeId: "k4V3Mo61fJM",
+        songStartOffset: 8, // Song starts at 8 seconds
         lyrics: [
           { timestamp: 0, text: "When you try your best, but you don't succeed", duration: 4 },
           { timestamp: 4, text: "When you get what you want, but not what you need", duration: 4 },
@@ -86,6 +88,7 @@ export class MemStorage implements IStorage {
         year: 2000,
         duration: 269,
         youtubeId: "yKNxeF4KMsY",
+        songStartOffset: 3, // Song starts at 3 seconds
         lyrics: [
           { timestamp: 0, text: "Look at the stars", duration: 4 },
           { timestamp: 4, text: "Look how they shine for you", duration: 4 },
@@ -132,6 +135,7 @@ export class MemStorage implements IStorage {
         year: 2011,
         duration: 278,
         youtubeId: "1G4isv_Fylg",
+        songStartOffset: 5, // Song starts at 5 seconds
         lyrics: [
           { timestamp: 0, text: "When she was just a girl", duration: 4 },
           { timestamp: 4, text: "She expected the world", duration: 4 },
@@ -156,6 +160,7 @@ export class MemStorage implements IStorage {
         year: song.year || null,
         duration: song.duration || null,
         youtubeId: song.youtubeId || null,
+        songStartOffset: song.songStartOffset || 0,
         translations: {} 
       });
     });

@@ -51,7 +51,12 @@ export default function LyricsPage() {
             {selectedSong.youtubeId && (
               <YouTubePlayer
                 videoId={selectedSong.youtubeId}
-                onTimeUpdate={(time) => setCurrentTime(time + syncOffset)}
+                songStartOffset={selectedSong.songStartOffset}
+                onTimeUpdate={(time) => {
+                  // Adjust for song start offset and user calibration
+                  const adjustedTime = time - (selectedSong.songStartOffset || 0) + syncOffset;
+                  setCurrentTime(Math.max(0, adjustedTime));
+                }}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 isPlaying={isPlaying}

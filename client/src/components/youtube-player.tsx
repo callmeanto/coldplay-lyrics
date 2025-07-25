@@ -12,6 +12,7 @@ declare global {
 
 interface YouTubePlayerProps {
   videoId: string;
+  songStartOffset?: number;
   onTimeUpdate?: (currentTime: number) => void;
   onPlay?: () => void;
   onPause?: () => void;
@@ -21,6 +22,7 @@ interface YouTubePlayerProps {
 
 export default function YouTubePlayer({ 
   videoId, 
+  songStartOffset = 0,
   onTimeUpdate, 
   onPlay, 
   onPause,
@@ -31,6 +33,7 @@ export default function YouTubePlayer({
   const containerRef = useRef<HTMLDivElement>(null);
   const [apiReady, setApiReady] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
+  const [currentVideoTime, setCurrentVideoTime] = useState(0);
   
   // Audio sync for real-time analysis
   const { isAnalyzing, audioLevel, beatIntensity } = useAudioSync({
@@ -107,6 +110,7 @@ export default function YouTubePlayer({
       if (playerRef.current && playerReady) {
         try {
           const currentTime = playerRef.current.getCurrentTime();
+          setCurrentVideoTime(currentTime);
           // Use precise timing with millisecond accuracy
           onTimeUpdate?.(currentTime);
           
@@ -194,15 +198,24 @@ export default function YouTubePlayer({
             
             {/* Sync status */}
             {playerReady && isPlaying && (
-              <div className="flex items-center space-x-1 text-music-green">
-                <div 
-                  className="w-2 h-2 bg-music-green rounded-full transition-all duration-100"
-                  style={{
-                    opacity: 0.5 + beatIntensity * 0.5,
-                    transform: `scale(${1 + beatIntensity * 0.3})`
-                  }}
-                />
-                <span className="text-xs">Sync en tiempo real</span>
+              <div className="flex items-center space-x-1">
+                {currentVideoTime < songStartOffset ? (
+                  <div className="flex items-center space-x-1 text-yellow-500">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+                    <span className="text-xs">Esperando inicio...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-1 text-music-green">
+                    <div 
+                      className="w-2 h-2 bg-music-green rounded-full transition-all duration-100"
+                      style={{
+                        opacity: 0.5 + beatIntensity * 0.5,
+                        transform: `scale(${1 + beatIntensity * 0.3})`
+                      }}
+                    />
+                    <span className="text-xs">Sincronizado</span>
+                  </div>
+                )}
               </div>
             )}
           </div>
