@@ -3,24 +3,20 @@ import { Lightbulb, Battery, Download, Sun, Heart } from "lucide-react";
 export default function ConcertTips() {
   const tips = [
     {
-      icon: Battery,
-      text: "Activa el modo ahorro de batería antes del concierto"
+      icon: Download,
+      text: "Estudia las letras con anticipación para conocer las canciones"
     },
     {
-      icon: Download,
-      text: "Descarga las traducciones antes de llegar al venue"
+      icon: Battery,
+      text: "Practica cantando en español para el gran día"
     },
     {
       icon: Sun,
-      text: "Ajusta el brillo al mínimo para no molestar a otros"
+      text: "Repite las canciones más populares como 'Viva La Vida'"
     },
     {
       icon: Heart,
-      text: "Esta app sincroniza con la música en vivo - no reproduce audio"
-    },
-    {
-      icon: Heart,
-      text: "¡Disfruta este momento especial con tu mamá!"
+      text: "¡Sorprende a tu familia cantando en el concierto!"
     }
   ];
 
@@ -28,7 +24,7 @@ export default function ConcertTips() {
     <div className="bg-gray-800 rounded-xl p-4 border border-gray-600">
       <h3 className="text-sm font-medium text-accent-gold mb-3 flex items-center">
         <Lightbulb className="mr-2 h-4 w-4" />
-        Consejos para el Concierto
+        Consejos para Estudiar
       </h3>
       <ul className="space-y-2 text-xs text-gray-300">
         {tips.map((tip, index) => (

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack web application called "Coldplay para Mamá" - a lyrics translation app specifically designed for concert-goers. The app allows users to view song lyrics with synchronized timestamps and translate them to different languages (primarily Spanish) for an enhanced concert experience. It features a mobile-first design optimized for use during live concerts.
+This is a full-stack web application called "Letras de Coldplay" - a lyrics study app designed to help Spanish speakers learn Coldplay song lyrics before attending concerts. The app allows users to view song lyrics with Spanish translations, practice with timing controls, and study the lyrics to prepare for singing along at live concerts. It features a mobile-first design optimized for learning and memorization.
 
 ## User Preferences
 

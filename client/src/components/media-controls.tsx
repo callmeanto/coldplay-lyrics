@@ -74,7 +74,7 @@ export default function MediaControls({
         <h3 className="text-lg font-medium text-white mb-1">{song.title}</h3>
         <p className="text-sm text-gray-400">{song.artist}</p>
         <p className="text-xs text-music-green mt-1">
-          🎵 Sincroniza con la música en vivo del concierto
+          📚 Estudia las letras antes del concierto
         </p>
       </div>
       

@@ -27,7 +27,7 @@ export default function LyricsPage() {
         <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Music className="text-music-green text-xl" />
-            <h1 className="text-lg font-medium">Coldplay para Mamá</h1>
+            <h1 className="text-lg font-medium">Letras de Coldplay</h1>
           </div>
           <button className="text-gray-400 hover:text-white transition-colors p-2">
             <Settings className="text-lg" />
