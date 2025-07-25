@@ -16,6 +16,10 @@ export default function ConcertTips() {
     },
     {
       icon: Heart,
+      text: "Esta app sincroniza con la música en vivo - no reproduce audio"
+    },
+    {
+      icon: Heart,
       text: "¡Disfruta este momento especial con tu mamá!"
     }
   ];

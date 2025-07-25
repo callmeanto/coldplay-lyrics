@@ -73,6 +73,9 @@ export default function MediaControls({
       <div className="text-center mb-4">
         <h3 className="text-lg font-medium text-white mb-1">{song.title}</h3>
         <p className="text-sm text-gray-400">{song.artist}</p>
+        <p className="text-xs text-music-green mt-1">
+          🎵 Sincroniza con la música en vivo del concierto
+        </p>
       </div>
       
       {/* Progress Bar */}
