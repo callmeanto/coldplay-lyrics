@@ -10,6 +10,7 @@ export const songs = pgTable("songs", {
   album: text("album"),
   year: integer("year"),
   duration: integer("duration"), // in seconds
+  youtubeId: text("youtube_id"), // YouTube video ID for playback
   lyrics: jsonb("lyrics").$type<LyricLine[]>().notNull(),
   translations: jsonb("translations").$type<Record<string, LyricLine[]>>().default({}),
 });

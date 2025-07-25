@@ -33,6 +33,7 @@ export class MemStorage implements IStorage {
         album: "Viva la Vida or Death and All His Friends",
         year: 2008,
         duration: 242,
+        youtubeId: "dvgZkm1xWPE",
         lyrics: [
           { timestamp: 0, text: "I used to rule the world", duration: 4 },
           { timestamp: 4, text: "Seas would rise when I gave the word", duration: 4 },
@@ -62,6 +63,7 @@ export class MemStorage implements IStorage {
         album: "X&Y",
         year: 2005,
         duration: 294,
+        youtubeId: "k4V3Mo61fJM",
         lyrics: [
           { timestamp: 0, text: "When you try your best, but you don't succeed", duration: 4 },
           { timestamp: 4, text: "When you get what you want, but not what you need", duration: 4 },
@@ -83,6 +85,7 @@ export class MemStorage implements IStorage {
         album: "Parachutes",
         year: 2000,
         duration: 269,
+        youtubeId: "yKNxeF4KMsY",
         lyrics: [
           { timestamp: 0, text: "Look at the stars", duration: 4 },
           { timestamp: 4, text: "Look how they shine for you", duration: 4 },
@@ -104,6 +107,7 @@ export class MemStorage implements IStorage {
         album: "A Rush of Blood to the Head",
         year: 2002,
         duration: 309,
+        youtubeId: "RB-RcX5DS5A",
         lyrics: [
           { timestamp: 0, text: "Come up to meet you, tell you I'm sorry", duration: 4 },
           { timestamp: 4, text: "You don't know how lovely you are", duration: 4 },
@@ -127,6 +131,7 @@ export class MemStorage implements IStorage {
         album: "Mylo Xyloto",
         year: 2011,
         duration: 278,
+        youtubeId: "1G4isv_Fylg",
         lyrics: [
           { timestamp: 0, text: "When she was just a girl", duration: 4 },
           { timestamp: 4, text: "She expected the world", duration: 4 },
@@ -150,6 +155,7 @@ export class MemStorage implements IStorage {
         album: song.album || null,
         year: song.year || null,
         duration: song.duration || null,
+        youtubeId: song.youtubeId || null,
         translations: {} 
       });
     });

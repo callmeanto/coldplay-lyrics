@@ -7,6 +7,7 @@ import LyricsDisplay from "@/components/lyrics-display";
 import TextSizeControl from "@/components/text-size-control";
 import ConnectionStatus from "@/components/connection-status";
 import ConcertTips from "@/components/concert-tips";
+import YouTubePlayer from "@/components/youtube-player";
 import { type Song } from "@shared/schema";
 
 export default function LyricsPage() {
@@ -45,6 +46,17 @@ export default function LyricsPage() {
 
         {selectedSong && (
           <>
+            {selectedSong.youtubeId && (
+              <YouTubePlayer
+                videoId={selectedSong.youtubeId}
+                onTimeUpdate={setCurrentTime}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                isPlaying={isPlaying}
+                onPlayPause={() => setIsPlaying(!isPlaying)}
+              />
+            )}
+
             <MediaControls
               song={selectedSong}
               currentTime={currentTime}

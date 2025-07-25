@@ -4,15 +4,15 @@ export default function ConcertTips() {
   const tips = [
     {
       icon: Download,
-      text: "Estudia las letras con anticipación para conocer las canciones"
+      text: "Escucha las canciones mientras lees las letras en español"
     },
     {
       icon: Battery,
-      text: "Practica cantando en español para el gran día"
+      text: "Practica cantando junto con el video de YouTube"
     },
     {
       icon: Sun,
-      text: "Repite las canciones más populares como 'Viva La Vida'"
+      text: "Repite las canciones favoritas como 'Viva La Vida' y 'Fix You'"
     },
     {
       icon: Heart,
