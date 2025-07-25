@@ -85,18 +85,21 @@ export default function YouTubePlayer({
     }
   }, [videoId, playerReady]);
 
-  // Separate effect for time updates
+  // Separate effect for time updates - more frequent for better sync
   useEffect(() => {
+    if (!playerReady) return;
+    
     const interval = setInterval(() => {
       if (playerRef.current && playerReady) {
         try {
           const currentTime = playerRef.current.getCurrentTime();
-          onTimeUpdate?.(Math.floor(currentTime));
+          const roundedTime = Math.floor(currentTime);
+          onTimeUpdate?.(roundedTime);
         } catch (e) {
           // Player not ready yet
         }
       }
-    }, 1000);
+    }, 500); // Update every 500ms for smoother sync
 
     return () => clearInterval(interval);
   }, [playerReady, onTimeUpdate]);
