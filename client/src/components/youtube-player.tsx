@@ -75,22 +75,31 @@ export default function YouTubePlayer({
           },
         },
       });
-
-      // Update time periodically
-      const interval = setInterval(() => {
-        if (playerRef.current && playerReady) {
-          try {
-            const currentTime = playerRef.current.getCurrentTime();
-            onTimeUpdate?.(Math.floor(currentTime));
-          } catch (e) {
-            // Player not ready yet
-          }
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
     }
-  }, [apiReady, videoId, playerReady, onTimeUpdate, onPlay, onPause]);
+  }, [apiReady, videoId, onPlay, onPause]);
+
+  // Separate effect for updating video when videoId changes
+  useEffect(() => {
+    if (playerRef.current && playerReady && videoId) {
+      playerRef.current.loadVideoById(videoId);
+    }
+  }, [videoId, playerReady]);
+
+  // Separate effect for time updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playerRef.current && playerReady) {
+        try {
+          const currentTime = playerRef.current.getCurrentTime();
+          onTimeUpdate?.(Math.floor(currentTime));
+        } catch (e) {
+          // Player not ready yet
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [playerReady, onTimeUpdate]);
 
   useEffect(() => {
     if (playerRef.current && playerReady) {
