@@ -124,9 +124,9 @@
     outline-offset: 2px;
   }
 
-  /* Enhanced lyric line animations for auto-sync */
+  /* Enhanced lyric line animations for real-time sync */
   .lyric-line {
-    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     scroll-margin: 50px;
   }
 
@@ -148,6 +148,17 @@
 
   .lyric-line.current {
     animation: highlight-pulse 0.6s ease-in-out;
+  }
+
+  /* Real-time beat reaction */
+  @keyframes beat-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  .beat-reactive {
+    animation: beat-pulse 0.2s ease-out;
   }
 
   /* Custom scrollbar for lyrics container */

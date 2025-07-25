@@ -22,7 +22,7 @@ export default function LyricsDisplay({
   onLanguageChange 
 }: LyricsDisplayProps) {
   const { translatedLyrics, isTranslating, translateSong } = useTranslation(song.id);
-  const { currentLineIndex, getLineStatus } = useLyricsSync(song.lyrics, currentTime);
+  const { currentLineIndex, currentLineProgress, getLineStatus } = useLyricsSync(song.lyrics, currentTime);
   const lyricsContainerRef = useRef<HTMLDivElement>(null);
   const currentLineRef = useRef<HTMLDivElement>(null);
 
@@ -109,7 +109,7 @@ export default function LyricsDisplay({
                 <div
                   key={index}
                   ref={status === 'current' ? currentLineRef : null}
-                  className={`lyric-line leading-relaxed transition-all duration-500 rounded-lg p-3 ${
+                  className={`lyric-line leading-relaxed transition-all duration-300 rounded-lg p-3 relative overflow-hidden ${
                     status === 'current' 
                       ? `text-accent-gold ${currentSizes[textSize - 1]} font-bold bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-l-4 border-accent-gold shadow-lg transform scale-105`
                       : status === 'next'
@@ -119,7 +119,18 @@ export default function LyricsDisplay({
                       : `opacity-30 ${textSizes[textSize - 1]} text-gray-500`
                   }`}
                 >
-                  {line.text}
+                  {/* Real-time progress bar for current line */}
+                  {status === 'current' && (
+                    <div 
+                      className="absolute bottom-0 left-0 h-1 bg-accent-gold transition-all duration-100"
+                      style={{ 
+                        width: `${currentLineProgress * 100}%`,
+                        transition: 'width 0.1s linear'
+                      }}
+                    />
+                  )}
+                  
+                  <span className="relative z-10">{line.text}</span>
                 </div>
               );
             })}

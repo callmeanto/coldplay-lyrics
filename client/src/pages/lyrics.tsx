@@ -8,6 +8,7 @@ import TextSizeControl from "@/components/text-size-control";
 import ConnectionStatus from "@/components/connection-status";
 import ConcertTips from "@/components/concert-tips";
 import YouTubePlayer from "@/components/youtube-player";
+import SyncCalibration from "@/components/sync-calibration";
 import { type Song } from "@shared/schema";
 
 export default function LyricsPage() {
@@ -16,6 +17,7 @@ export default function LyricsPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [textSize, setTextSize] = useState(3);
   const [showLanguage, setShowLanguage] = useState<"english" | "spanish">("english");
+  const [syncOffset, setSyncOffset] = useState(0);
 
   const { data: songs = [], isLoading } = useQuery<Song[]>({
     queryKey: ["/api/songs"],
@@ -49,13 +51,18 @@ export default function LyricsPage() {
             {selectedSong.youtubeId && (
               <YouTubePlayer
                 videoId={selectedSong.youtubeId}
-                onTimeUpdate={setCurrentTime}
+                onTimeUpdate={(time) => setCurrentTime(time + syncOffset)}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 isPlaying={isPlaying}
                 onPlayPause={() => setIsPlaying(!isPlaying)}
               />
             )}
+
+            <SyncCalibration
+              onOffsetChange={setSyncOffset}
+              currentOffset={syncOffset}
+            />
 
             <MediaControls
               song={selectedSong}

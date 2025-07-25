@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause, Volume2 } from "lucide-react";
+import { Play, Pause, Volume2, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAudioSync } from "@/hooks/use-audio-sync";
 
 declare global {
   interface Window {
@@ -30,6 +31,17 @@ export default function YouTubePlayer({
   const containerRef = useRef<HTMLDivElement>(null);
   const [apiReady, setApiReady] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
+  
+  // Audio sync for real-time analysis
+  const { isAnalyzing, audioLevel, beatIntensity } = useAudioSync({
+    onBeatDetected: (intensity) => {
+      // Visual feedback for beat detection
+      if (intensity > 0.8) {
+        document.documentElement.style.setProperty('--beat-intensity', intensity.toString());
+      }
+    },
+    sensitivity: 0.75
+  });
 
   useEffect(() => {
     // Load YouTube API
@@ -85,23 +97,35 @@ export default function YouTubePlayer({
     }
   }, [videoId, playerReady]);
 
-  // Separate effect for time updates - more frequent for better sync
+  // High-precision time updates for real-time sync
   useEffect(() => {
     if (!playerReady) return;
     
-    const interval = setInterval(() => {
+    let animationFrame: number;
+    
+    const updateTime = () => {
       if (playerRef.current && playerReady) {
         try {
           const currentTime = playerRef.current.getCurrentTime();
-          const roundedTime = Math.floor(currentTime);
-          onTimeUpdate?.(roundedTime);
+          // Use precise timing with millisecond accuracy
+          onTimeUpdate?.(currentTime);
+          
+          // Continue updating at 60fps for smooth sync
+          animationFrame = requestAnimationFrame(updateTime);
         } catch (e) {
           // Player not ready yet
         }
       }
-    }, 500); // Update every 500ms for smoother sync
+    };
+    
+    // Start the animation loop
+    animationFrame = requestAnimationFrame(updateTime);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
   }, [playerReady, onTimeUpdate]);
 
   useEffect(() => {
@@ -148,12 +172,40 @@ export default function YouTubePlayer({
             <Volume2 className="h-4 w-4" />
             <span>Audio de YouTube</span>
           </div>
-          {playerReady && isPlaying && (
-            <div className="flex items-center space-x-1 text-music-green">
-              <div className="w-2 h-2 bg-music-green rounded-full animate-pulse"></div>
-              <span className="text-xs">Sincronizado</span>
-            </div>
-          )}
+          
+          <div className="flex items-center space-x-3">
+            {/* Audio level visualizer */}
+            {playerReady && isPlaying && (
+              <div className="flex items-center space-x-1">
+                <div className="flex space-x-1 items-end">
+                  {[...Array(4)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-1 bg-music-green rounded-full transition-all duration-100"
+                      style={{
+                        height: `${Math.max(2, audioLevel * 16 + Math.random() * 4)}px`
+                      }}
+                    />
+                  ))}
+                </div>
+                <Radio className="h-3 w-3 text-music-green" />
+              </div>
+            )}
+            
+            {/* Sync status */}
+            {playerReady && isPlaying && (
+              <div className="flex items-center space-x-1 text-music-green">
+                <div 
+                  className="w-2 h-2 bg-music-green rounded-full transition-all duration-100"
+                  style={{
+                    opacity: 0.5 + beatIntensity * 0.5,
+                    transform: `scale(${1 + beatIntensity * 0.3})`
+                  }}
+                />
+                <span className="text-xs">Sync en tiempo real</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       
