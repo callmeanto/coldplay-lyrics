@@ -1,14 +1,16 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { storage } from '../server/storage.js';
-import { translationService } from '../server/services/translation.js';
+import { MemStorage } from '../server/storage.js';
+import { GoogleTranslationService } from '../server/services/translation.js';
 import { translateRequestSchema } from '../shared/schema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const storage = new MemStorage();
+const translationService = new GoogleTranslationService();
 
 // Middleware
 app.use(express.json());
