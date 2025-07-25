@@ -140,9 +140,17 @@ export default function YouTubePlayer({
           )}
         </Button>
         
-        <div className="flex items-center space-x-2 text-sm text-gray-400">
-          <Volume2 className="h-4 w-4" />
-          <span>Audio de YouTube</span>
+        <div className="flex items-center justify-between text-sm text-gray-400">
+          <div className="flex items-center space-x-2">
+            <Volume2 className="h-4 w-4" />
+            <span>Audio de YouTube</span>
+          </div>
+          {playerReady && isPlaying && (
+            <div className="flex items-center space-x-1 text-music-green">
+              <div className="w-2 h-2 bg-music-green rounded-full animate-pulse"></div>
+              <span className="text-xs">Sincronizado</span>
+            </div>
+          )}
         </div>
       </div>
       

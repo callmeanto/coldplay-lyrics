@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Cloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,8 @@ export default function LyricsDisplay({
 }: LyricsDisplayProps) {
   const { translatedLyrics, isTranslating, translateSong } = useTranslation(song.id);
   const { currentLineIndex, getLineStatus } = useLyricsSync(song.lyrics, currentTime);
+  const lyricsContainerRef = useRef<HTMLDivElement>(null);
+  const currentLineRef = useRef<HTMLDivElement>(null);
 
   const displayLyrics = language === "spanish" ? translatedLyrics : song.lyrics;
   const textSizes = ["text-base", "text-lg", "text-xl", "text-2xl"];
@@ -33,6 +35,25 @@ export default function LyricsDisplay({
       translateSong("es");
     }
   }, [language, translatedLyrics, translateSong]);
+
+  // Auto-scroll to current line
+  useEffect(() => {
+    if (currentLineRef.current && lyricsContainerRef.current) {
+      const container = lyricsContainerRef.current;
+      const currentElement = currentLineRef.current;
+      
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = currentElement.getBoundingClientRect();
+      
+      // Check if current line is out of view
+      if (elementRect.top < containerRect.top || elementRect.bottom > containerRect.bottom) {
+        currentElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+  }, [currentLineIndex]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -69,7 +90,7 @@ export default function LyricsDisplay({
       </div>
       
       {/* Lyrics Content */}
-      <div className="p-6 max-h-96 overflow-y-auto lyrics-container">
+      <div ref={lyricsContainerRef} className="p-6 max-h-96 overflow-y-auto lyrics-container">
         <div className="text-center text-gray-500 text-sm mb-6">
           {formatTime(currentTime)} / {formatTime(song.duration || 0)}
         </div>
@@ -87,12 +108,15 @@ export default function LyricsDisplay({
               return (
                 <div
                   key={index}
-                  className={`lyric-line leading-relaxed transition-all duration-300 ${
+                  ref={status === 'current' ? currentLineRef : null}
+                  className={`lyric-line leading-relaxed transition-all duration-500 rounded-lg p-3 ${
                     status === 'current' 
-                      ? `text-accent-gold ${currentSizes[textSize - 1]} font-medium current`
+                      ? `text-accent-gold ${currentSizes[textSize - 1]} font-bold bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-l-4 border-accent-gold shadow-lg transform scale-105`
                       : status === 'next'
-                      ? `text-white ${textSizes[textSize - 1]} next`
-                      : `opacity-50 ${textSizes[textSize - 1]} ${status}`
+                      ? `text-white ${textSizes[textSize - 1]} bg-gray-800/50 border-l-2 border-gray-600`
+                      : status === 'past'
+                      ? `opacity-40 ${textSizes[textSize - 1]} text-gray-400`
+                      : `opacity-30 ${textSizes[textSize - 1]} text-gray-500`
                   }`}
                 >
                   {line.text}
